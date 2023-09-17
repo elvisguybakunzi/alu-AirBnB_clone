@@ -1,63 +1,71 @@
 #!/usr/bin/python3
 import unittest
-import time
+import os
 from models.base_model import BaseModel
+from datetime import datetime
 
 
 class TestBaseModel(unittest.TestCase):
-    """Test cases for BaseModel class."""
 
-    def setUp(self):
-        self.testModel = BaseModel()
+    def test_init(self):
+        model = BaseModel()
+        self.assertIsInstance(model.id, str)
+        self.assertIsInstance(model.created_at, datetime)
+        self.assertIsInstance(model.updated_at, datetime)
 
-    # tear down
-    def tearDown(self):
-        del self.testModel
+    def test_str(self):
+        model = BaseModel()
+        expected_str = f"[BaseModel] ({model.id}) {model.__dict__}"
+        self.assertEqual(str(model), expected_str)
 
     def test_save(self):
-        baseModel = BaseModel()
-        updated_at_before_save = baseModel.updated_at
-        time.sleep(0.5)
-        baseModel.save()
-        updated_at_after_save = baseModel.updated_at
-        self.assertNotEqual(baseModel.updated_at, baseModel.created_at)
-        self.assertNotEqual(updated_at_before_save, updated_at_after_save)
+        model = BaseModel()
+        old_updated_at = model.updated_at
+        model.save()
+        self.assertNotEqual(old_updated_at, model.updated_at)
 
-    # test BaseModel before and after clling save method
-    def test_save_before_save(self):
-        self.assertEqual(self.testModel.updated_at,
-                         self.testModel.created_at)
-    # test BaseModel before and after clling save method
+    def test_to_dict(self):
+        model = BaseModel()
+        model_dict = model.to_dict()
 
-    def test_save_after_save(self):
-        self.testModel.save()
-        self.assertNotEqual(self.testModel.updated_at,
-                            self.testModel.created_at)
+        self.assertIsInstance(model_dict, dict)
+        self.assertEqual(model_dict['__class__'], 'BaseModel')
+        self.assertIsInstance(model_dict['created_at'], str)
+        self.assertIsInstance(model_dict['updated_at'], str)
 
-    # test BaseModel to_dict method return type
-    def test_to_dict_return(self):
-        testModel_dict = self.testModel.to_dict()
-        self.assertIsInstance(testModel_dict, dict)
+    def test_to_dict_with_custom_attributes(self):
+        class CustomModel(BaseModel):
+            def __init__(self, *args, **kwargs):
+                super().__init__(*args, **kwargs)
+                self.custom_attr = "custom_value"
 
-    # test BaseModel to_dict method for it's content.
-    def test_to_dict_value(self):
-        testModel_dict = self.testModel.to_dict()
-        self.assertIn('__class__', testModel_dict)
+        custom_model = CustomModel()
+        custom_model_dict = custom_model.to_dict()
 
-    # test BaseModel to_dict method if it's content has the correct types
-    def test_to_dict_content_type(self):
-        testModel_dict = self.testModel.to_dict()
-        self.assertIsInstance(testModel_dict.get('created_at'), str)
-        self.assertIsInstance(testModel_dict.get('created_at'), str)
+        self.assertEqual(custom_model_dict['custom_attr'], 'custom_value')
 
-    # test string value of BaseModel
-    def test__str__(self):
-        class_name = self.testModel.__class__.__name__
-        id = self.testModel.id
-        dict_v = self.testModel.__dict__
-        self.assertEqual(str(self.testModel),
-                         f"[{class_name}] ({id}) {dict_v}")
+    def test_save_and_reload(self):
+        model = BaseModel()
+        model_id = model.id
+        model.save()
+
+        new_model = BaseModel()
+        new_model.reload()
+        self.assertEqual(new_model.id, model_id)
+
+    def test_save_and_reload_nonexistent_file(self):
+        model = BaseModel()
+        model.save()
+
+        new_model = BaseModel()
+        new_model.reload()
+        self.assertIsNone(new_model)
+
+    def tearDown(self):
+        # Clean up any test data or files created during testing
+        if os.path.exists("file.json"):
+            os.remove("file.json")
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
