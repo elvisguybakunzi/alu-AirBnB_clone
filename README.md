@@ -4,8 +4,8 @@
 
 ### Project Description
 
-This is the first part of AirBnB Clone Project where we work on the backend of the project interfacing it with the console with the help of cmd module in Python.
-We used JSON file to store data(Python Objects) and used json module to access them in Python.
+This is the first part of the AirBnB Clone Project, where we work on the project's backend, interfacing it with the console with the help of the cmd module in Python.
+We used JSON files to store data(Python Objects) and JSON modules to access them in Python.
 
 # General Objectives
 
@@ -20,7 +20,9 @@ We used JSON file to store data(Python Objects) and used json module to access t
 * What is `**kwargs` and how to use it
 * How to handle named arguments in a function
 
-![description](https://s3.amazonaws.com/alu-intranet.hbtn.io/uploads/medias/2018/6/815046647d23428a14ca.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUZTW2RLVB%2F20230917%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230917T073052Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=28d891093376162a31f5e46a208259571a9b3eb13337e997c0f12639ff361fa7)
+![description](https://camo.githubusercontent.com/e796d3f393998a320b8dddf28eafd574ea01c393c91b844cbb913e094cf0b149/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f696e7472616e65742d70726f6a656374732d66696c65732f636f6e63657074732f37342f68626e625f73746570352e706e67)
+
+Here in this project, we are working on the console and JSON in the storage engines
 
 ## Authors
 
