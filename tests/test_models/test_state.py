@@ -2,7 +2,7 @@
 """unittest for User class"""
 import unittest
 from models.state import State
-from models.base_model import BaseModel
+from models import BaseModel
 
 
 class TestState(unittest.TestCase):

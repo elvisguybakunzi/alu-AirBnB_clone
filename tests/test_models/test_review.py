@@ -2,7 +2,7 @@
 """unittest for User class"""
 import unittest
 from models.review import Review
-from models.base_model import BaseModel
+from models import BaseModel
 
 
 class TestReview(unittest.TestCase):
